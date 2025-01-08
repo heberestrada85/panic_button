@@ -1,7 +1,6 @@
 package os.app.b_360;
 
 import static os.app.b_360.App.btn_mac;
-import static os.app.b_360.App.isAlarmed;
 import static os.app.b_360.App.isBluetoothActive;
 import static os.app.b_360.MainActivity.myShEdit;
 
@@ -24,7 +23,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -34,7 +32,7 @@ import os.app.b_360.services.ScannBluetooth;
 
 public class AddInfoBtn extends AppCompatActivity {
 
-    private static final int CAMERA_PERMISSION_REQUEST = 123;
+    // private static final int CAMERA_PERMISSION_REQUEST = 123;
 
     TextView txtDeviceName, txtBtnName, txtBtnBattery, txtBtnRSSI;
     EditText editMac;
@@ -138,17 +136,8 @@ public class AddInfoBtn extends AppCompatActivity {
                     .setPrompt("Coloca el código QR dentro del rectángulo")
                     .setBeepEnabled(true)
                     .setOrientationLocked(true)
-                    //.setCaptureActivity(CustomScannerActivity.class)
                     ;
             qrLauncher.launch(options);
         });
     }
 }
-
-/*
-
-class CaptureCam extends CaptureActivity {
-
-}
-
-*/
