@@ -83,30 +83,6 @@ public class MainActivity extends AppCompatActivity {
     private long pressStartTime;
     private boolean isPressed = false;
 
-    /*
-    private ActivityResultLauncher<String> requestPermissionLauncherNotification;
-    private final ActivityResultLauncher<String[]> multiplePermissionsLauncherLocation =
-            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
-                    permissions -> {
-                        boolean allGranted = true;
-                        for (Boolean isGranted : permissions.values()) {
-                            allGranted = allGranted && isGranted;
-                        }
-
-                        if (allGranted) {
-                            Log.d("Multiple Permissions Launcher Location", "All Granted");
-                            //startLocationUpdates();
-                        } else {
-                            Toast.makeText(this,
-                                    "Se necesitan los permisos de ubicación",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-    */
-
-
-
     // Launcher para permisos de ubicación
     private final ActivityResultLauncher<String[]> locationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
@@ -162,9 +138,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void updateStatus(String status) {
-        //statusText.setText(status);
+
+        Log.d("updateStatus", status);
     }
+
 
 
     private void startFullFunctionality() { // Ok
@@ -285,25 +264,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        /*
-        // Inicializar el launcher para los permisos
-        requestPermissionLauncherNotification = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                isGranted -> {
-                    if (isGranted) {
-                        Log.d("Request Permission Launcher", "Show Notification");
-                        //showNotification();
-                    } else {
-                        Toast.makeText(
-                                MainActivity.this,
-                                "El permiso de notificaciones es necesario",
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
-                }
-        );
-
-        */
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         btnPanic = (ImageView) findViewById(R.id.imgBtn);
@@ -342,11 +302,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // registerForContextMenu(btnMenu);
-
-
-
-
         imgLogo360.setOnLongClickListener( (View v) -> {
 
                 if(isAlarmed) {
@@ -364,13 +319,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-        ////checkNotificationPermissionNotification();
-        //checkAndRequestPermissionsLocation();
-
-        //imgLogo360.setOnClickListener(v -> checkNotificationPermission());
-
         // Start Permission Sequence
-
         startPermissionSequence();
 
         createNotificationChannels();
@@ -383,9 +332,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
 
-        //startServices(LocationService.class);
-        ////Intent iL = new Intent(this, MyLocationService.class);
-        ////startService(iL);
 
         if (isAlarmed)
             btnPanic.setImageResource(R.drawable.b_on_red);
@@ -452,6 +398,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -461,29 +410,6 @@ public class MainActivity extends AppCompatActivity {
 
         menu.setHeaderTitle("Config.");
     }
-
-
-/*
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-
-        switch (item.getItemId()) {
-            case R.id.add_device:
-                //newGame();
-                return true;
-            case R.id.add_url:
-                //showHelp();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        //return super.onContextItemSelected(item);
-
-    }
-*/
 
 
     private void showPopupMenu(View view) {
@@ -509,7 +435,6 @@ public class MainActivity extends AppCompatActivity {
 
         popupMenu.show();
     }
-
 
 
 
@@ -544,75 +469,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*
-    private void chkPermissionForOpenApp(Activity activity) {
-        if (!hasLocationPermission(activity)) {
-            myRequestPermissionLocation(activity);
-        }
-        else {
-            runServices();
-        }
-    }
-
-
-    public boolean hasLocationPermissionRationale(Activity activity) {
-
-        boolean fineLoc = ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-        );
-
-        boolean coarseLoc = ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-        );
-
-        return fineLoc && coarseLoc;
-    }
-
-    private void myRequestPermissionLocation(Activity activity) {
-
-        if( hasLocationPermissionRationale(activity) ) {
-            Toast.makeText(
-                    activity, "ACCESS_FINE_LOCATION o ACCESS_COARSE_LOCATION Rechazado por el Usuario", Toast.LENGTH_LONG).show();
-        }
-        else {
-
-            String reqPermissions[] = {
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-            };
-
-            Toast.makeText(activity, "else myRequestPermissionLocation", Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(
-                    activity, reqPermissions, 2828);
-        }
-    }
-
-
-    public boolean hasLocationPermission(Activity activity) {
-
-        boolean fineLoc = ContextCompat.checkSelfPermission(
-                activity,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED;
-
-        boolean coarseLoc = ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED;
-
-
-        return fineLoc && coarseLoc;
-    }
-
-    public void runServices() {
-
-
-    }
-
-    */
-
 
     public void startServices(Activity activity, Class<?> _class_) {
 
@@ -635,66 +491,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    /*
-    //Llamada de solicitu de permisos
-    private void checkAndRequestPermissionsLocation() {
-        List<String> permissionsNeeded = new ArrayList<>();
-
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            permissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            permissionsNeeded.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-
-        if (!permissionsNeeded.isEmpty()) {
-            multiplePermissionsLauncherLocation.launch(
-                    permissionsNeeded.toArray(new String[0])
-            );
-        } else {
-            Log.d("Check And Request Permissions Location", "permissionsNeeded.isEmpty()");
-            //startLocationUpdates();
-        }
-    }
-
-    */
-
-
-    /*
-    private void checkNotificationPermissionNotification () {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED) {
-                Log.d("Request Permission Launcher", "Show Notification");
-                //showNotification();
-            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                Toast.makeText(
-                        this,
-                        "Necesitamos permiso para enviar notificaciones",
-                        Toast.LENGTH_LONG
-                ).show();
-                requestPermissionLauncherNotification.launch(android.Manifest.permission.POST_NOTIFICATIONS);
-            } else {
-                requestPermissionLauncherNotification.launch(Manifest.permission.POST_NOTIFICATIONS);
-            }
-        } else {
-            Log.d("Request Permission Launcher", "Show Notification");
-            //showNotification();
-        }
-
-        checkAndRequestPermissionsLocation();
-    }
-
-    */
 
     private void createNotificationChannels () {
 
